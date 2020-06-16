@@ -175,7 +175,16 @@ export class HUDStatistics extends BaseHUDPart {
             }
         }
 
-        entries.sort((a, b) => b[1] - a[1]);
+        entries.sort((a, b) => {
+            const aPinned = this.root.hud.parts.pinnedShapes.isShapePinned(a[0]);
+            const bPinned = this.root.hud.parts.pinnedShapes.isShapePinned(b[0]);
+
+            if (aPinned === bPinned) {
+                return b[1] - a[1];
+            }
+
+            return bPinned - aPinned;
+        });
 
         let rendered = new Set();
 
